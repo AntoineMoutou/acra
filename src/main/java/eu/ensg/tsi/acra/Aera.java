@@ -33,6 +33,7 @@ public class Aera {
 		this.setData();
 	}
 
+	// void setters 
 	protected void setData() {
 		this.data = new double[this.height][this.width];
 	}
@@ -51,33 +52,14 @@ public class Aera {
 		this.bound = this.reader.getBoundOfData(this.pathname);
 	}
 	
-	public void generate() {
-		this.generator.generate(this.data);
-	}
-	
-	public void export() {
-		this.writter.export(this.data);
-	}
-
-	public double getResolution() {
-		return resolution;
-	}
-
+	// other setters
 	public void setResolution(double resolution) {
 		this.resolution = resolution;
 		this.setHeight();
 		this.setWidth();
 		this.setData();
 	}
-
-	public IReader getReader() {
-		return reader;
-	}
 	
-	public String getPathname() {
-		return pathname;
-	}
-
 	public void setReaderAndPathname(IReader reader, String pathname) {
 		this.reader = reader;
 		this.pathname = pathname;
@@ -90,20 +72,58 @@ public class Aera {
 		this.setData();
 	}
 
-	public IGenerator getGenerator() {
-		return generator;
-	}
-
 	public void setGenerator(IGenerator generator) {
 		this.generator = generator;
 	}
-
+	
+	public void setWritter(IWritter writter) {
+		this.writter = writter;
+	}
+	
+	// getters
+	public IGenerator getGenerator() {
+		return generator;
+	}
+	
 	public IWritter getWritter() {
 		return writter;
 	}
 
-	public void setWritter(IWritter writter) {
-		this.writter = writter;
+	public IReader getReader() {
+		return reader;
+	}
+	
+	public String getPathname() {
+		return pathname;
+	}
+
+	public double[][] getData() {
+		return data;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public Bound getBound() {
+		return bound;
+	}
+	
+	public double getResolution() {
+		return resolution;
+	}
+
+	// other methods
+	public void generate() {
+		this.generator.generate(this.data);
+	}
+	
+	public void export() {
+		this.writter.export(this.data);
 	}
 
 }

@@ -17,9 +17,6 @@ public class BoundTest {
 		
         // define return value for method equals()
 		Mockito.when(c1.equals(bound.getUl())).thenReturn(true);
-//		System.out.println(c1);
-//		System.out.println(bound.getUl());
-//		System.out.println(c1.equals(bound.getUl()));
         Mockito.when(c1.equals(bound.getUr())).thenReturn(true);
         Mockito.when(c1.equals(bound.getBl())).thenReturn(true);
         Mockito.when(c1.equals(bound.getBr())).thenReturn(true);

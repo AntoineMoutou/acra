@@ -30,23 +30,8 @@
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.geotools/gt-main -->
-	<dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gt-main</artifactId>
-      <version>18.1</version>
-	</dependency>
     <!-- https://mvnrepository.com/artifact/org.geotools/gt-geojson -->
-	<dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gt-geojson</artifactId>
-      <version>18.1</version>
-	</dependency>
     <!-- https://mvnrepository.com/artifact/org.geotools/gt-metadata -->
-	<dependency>
-      <groupId>org.geotools</groupId>
-      <artifactId>gt-metadata</artifactId>
-      <version>18.1</version>
-	</dependency>
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-shapefile</artifactId>
