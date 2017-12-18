@@ -5,7 +5,7 @@ import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.reading.IReader;
 import eu.ensg.tsi.writting.IWritter;
 
-public class Aera {
+public class Area {
 	
 	private double data[][];
 	private int width; // width of the final image in pixel
@@ -17,8 +17,13 @@ public class Aera {
 	private IReader reader;
 	private IGenerator generator;
 	private IWritter writter;
+	
+	// default constructor, only used for unit tests
+	protected Area() {
+		
+	}
 
-	public Aera(IReader r, IGenerator g, IWritter w, String pathname, double res) {
+	public Area(IReader r, IGenerator g, IWritter w, String pathname, double res) {
 		this.reader = r;
 		this.generator = g;
 		this.writter = w;
@@ -80,6 +85,30 @@ public class Aera {
 		this.writter = writter;
 	}
 	
+	protected void setData(double[][] data) {
+		this.data = data;
+	}
+
+	protected void setWidth(int width) {
+		this.width = width;
+	}
+
+	protected void setHeight(int height) {
+		this.height = height;
+	}
+
+	protected void setBound(Bound bound) {
+		this.bound = bound;
+	}
+
+	protected void setPathname(String pathname) {
+		this.pathname = pathname;
+	}
+
+	protected void setReader(IReader reader) {
+		this.reader = reader;
+	}
+
 	// getters
 	public IGenerator getGenerator() {
 		return generator;

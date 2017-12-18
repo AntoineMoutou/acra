@@ -67,11 +67,4 @@ public class ShapefileReader implements IReader {
 		}
 		return null;
 	}
-
-	
-	public static void main(String args[]) {
-		ShapefileReader s = new ShapefileReader();
-		Bound b = s.getBoundOfData("data/shp/sentiers_bdtopo.shp");
-		System.out.println(b);
-	}
 }
