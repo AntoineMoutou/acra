@@ -1,13 +1,13 @@
 package eu.ensg.tsi.writting;
 
-public class AscWritter implements IWritter {
+public class GeotiffWriter implements IWriter {
 
-	public AscWritter() {
+	public GeotiffWriter() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public void export(double data[][]) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

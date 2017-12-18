@@ -9,7 +9,7 @@ import eu.ensg.tsi.generation.IGenerator;
 import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.geometry.Coordinate;
 import eu.ensg.tsi.reading.IReader;
-import eu.ensg.tsi.writting.IWritter;
+import eu.ensg.tsi.writting.IWriter;
 
 public class AreaTest {
 
@@ -18,7 +18,7 @@ public class AreaTest {
 		//  create mocks
 		IReader reader = Mockito.mock(IReader.class);
 		IGenerator generator = Mockito.mock(IGenerator.class);
-		IWritter writter = Mockito.mock(IWritter.class);
+		IWriter writer = Mockito.mock(IWriter.class);
 		Bound bound = Mockito.mock(Bound.class);
 		Coordinate ul = Mockito.mock(Coordinate.class);
 		Coordinate bl = Mockito.mock(Coordinate.class);
@@ -39,7 +39,7 @@ public class AreaTest {
 		Mockito.when(ur.getX()).thenReturn(450.0);
 		
 		// create Area object with constructor
-		Area area = new Area(reader, generator, writter, pathname, resolution);
+		Area area = new Area(reader, generator, writer, pathname, resolution);
 		
 		// define return value for method equals()
         Mockito.when(bound.equals(area.getBound())).thenReturn(true);
@@ -139,9 +139,6 @@ public class AreaTest {
 		area.setPathname(pathname);
 		area.setReader(reader);
 		area.setBoundOfData();
-		
-		System.out.println(bound);
-		System.out.println(area.getBound());
 		
 		assertTrue(bound.equals(area.getBound()));
 	}

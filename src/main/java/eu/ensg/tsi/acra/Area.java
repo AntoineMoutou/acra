@@ -3,7 +3,7 @@ package eu.ensg.tsi.acra;
 import eu.ensg.tsi.generation.IGenerator;
 import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.reading.IReader;
-import eu.ensg.tsi.writting.IWritter;
+import eu.ensg.tsi.writting.IWriter;
 
 public class Area {
 	
@@ -16,17 +16,17 @@ public class Area {
 	private double resolution; // pixel size in meter
 	private IReader reader;
 	private IGenerator generator;
-	private IWritter writter;
+	private IWriter writer;
 	
 	// default constructor, only used for unit tests
 	protected Area() {
 		
 	}
 
-	public Area(IReader r, IGenerator g, IWritter w, String pathname, double res) {
+	public Area(IReader r, IGenerator g, IWriter w, String pathname, double res) {
 		this.reader = r;
 		this.generator = g;
-		this.writter = w;
+		this.writer = w;
 		this.resolution = res;
 		this.pathname = pathname;
 		
@@ -81,8 +81,8 @@ public class Area {
 		this.generator = generator;
 	}
 	
-	public void setWritter(IWritter writter) {
-		this.writter = writter;
+	public void setWritter(IWriter writer) {
+		this.writer = writer;
 	}
 	
 	protected void setData(double[][] data) {
@@ -114,8 +114,8 @@ public class Area {
 		return generator;
 	}
 	
-	public IWritter getWritter() {
-		return writter;
+	public IWriter getWritter() {
+		return writer;
 	}
 
 	public IReader getReader() {
@@ -152,7 +152,7 @@ public class Area {
 	}
 	
 	public void export() {
-		this.writter.export(this.data);
+		this.writer.export(this.data);
 	}
 
 }
