@@ -29,9 +29,6 @@
       <version>1.10.19</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.geotools/gt-main -->
-    <!-- https://mvnrepository.com/artifact/org.geotools/gt-geojson -->
-    <!-- https://mvnrepository.com/artifact/org.geotools/gt-metadata -->
     <dependency>
       <groupId>org.geotools</groupId>
       <artifactId>gt-shapefile</artifactId>

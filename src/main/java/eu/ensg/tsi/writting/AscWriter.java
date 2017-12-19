@@ -6,7 +6,7 @@ public class AscWriter implements IWriter {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void export(double data[][]) {
+	public void export(double data[][], String pathname) {
 		// TODO Auto-generated method stub
 		
 	}

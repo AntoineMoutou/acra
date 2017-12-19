@@ -1,9 +1,15 @@
 package eu.ensg.tsi.acra;
 
+import eu.ensg.tsi.exception.GeneratorException;
+import eu.ensg.tsi.exception.ReaderException;
+import eu.ensg.tsi.exception.WriterException;
+import eu.ensg.tsi.generation.GeneratorFactory;
 import eu.ensg.tsi.generation.IGenerator;
 import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.reading.IReader;
+import eu.ensg.tsi.reading.ReaderFactory;
 import eu.ensg.tsi.writting.IWriter;
+import eu.ensg.tsi.writting.WriterFactory;
 
 public class Area {
 	
@@ -14,30 +20,61 @@ public class Area {
 	
 	private String pathname;
 	private double resolution; // pixel size in meter
-	private IReader reader;
-	private IGenerator generator;
-	private IWriter writer;
+	private String methodTag;
+	private String exportDataExtension;
 	
 	// default constructor, only used for unit tests
 	protected Area() {
-		
+		this.resolution = 0;
+		this.pathname = null;
+		this.methodTag = null;
+		this.exportDataExtension = null;
+		this.data = null;
+		this.width = 0;
+		this.height = 0;
+		this.bound = null;
 	}
 
-	public Area(IReader r, IGenerator g, IWriter w, String pathname, double res) {
-		this.reader = r;
-		this.generator = g;
-		this.writer = w;
+	public Area(String pathname, String methodTag, String exportDataExtension, double res) throws Exception {
+		
 		this.resolution = res;
 		this.pathname = pathname;
+		this.methodTag = methodTag;
+		this.exportDataExtension = exportDataExtension;
 		
-		this.setBoundOfData();
-		
+		this.setBoundOfData();		
 		this.setWidth();
-		this.setHeight();
-		
+		this.setHeight();	
 		this.setData();
 	}
-
+	
+	public static void main(String args[]) throws Exception {
+//		Area area = new Area("data/oraison-IRC-2010-050m-crop2.tif","perlinNoise","tif",5.0);
+//		area.generate();
+//		area.export();
+		
+		Area area2 = new Area();
+		area2.setData(new double[100][100]);
+		//area2.setPathname("data/oraison-IRC-2010-050m-crop2.tif");
+		area2.setPathname("data/shp/sentiers_bdtopo.shp");
+		area2.setMethodTag("random");
+		area2.setExportDataExtension("tif");
+		area2.setResolution(5.0);
+		area2.generate();
+		area2.export();
+	}
+	
+	// other methods
+	public void generate() throws GeneratorException {
+		IGenerator g = GeneratorFactory.createGenerator(this.methodTag);
+		g.generate(this.data);
+	}
+	
+	public void export() throws WriterException, ReaderException {
+		IWriter w = WriterFactory.createWriter(exportDataExtension);
+		w.export(this.data,this.pathname);
+	}
+	
 	// void setters 
 	protected void setData() {
 		this.data = new double[this.height][this.width];
@@ -53,106 +90,74 @@ public class Area {
 		this.width = (int)(this.bound.getUr().getX() - this.bound.getUl().getX());
 	}
 
-	protected void setBoundOfData() {
-		this.bound = this.reader.getBoundOfData(this.pathname);
+	protected void setBoundOfData() throws ReaderException {
+		IReader reader = ReaderFactory.createReader(this.pathname);
+		this.bound = reader.getBoundOfData(this.pathname);
 	}
 	
-	// other setters
-	public void setResolution(double resolution) {
-		this.resolution = resolution;
-		this.setHeight();
-		this.setWidth();
-		this.setData();
-	}
-	
-	public void setReaderAndPathname(IReader reader, String pathname) {
-		this.reader = reader;
-		this.pathname = pathname;
-		
-		this.setBoundOfData();
-		
-		this.setWidth();
-		this.setHeight();
-		
-		this.setData();
+	protected double[][] getData() {
+		return data;
 	}
 
-	public void setGenerator(IGenerator generator) {
-		this.generator = generator;
-	}
-	
-	public void setWritter(IWriter writer) {
-		this.writer = writer;
-	}
-	
 	protected void setData(double[][] data) {
 		this.data = data;
+	}
+
+	protected int getWidth() {
+		return width;
 	}
 
 	protected void setWidth(int width) {
 		this.width = width;
 	}
 
+	protected int getHeight() {
+		return height;
+	}
+
 	protected void setHeight(int height) {
 		this.height = height;
+	}
+
+	protected Bound getBound() {
+		return bound;
 	}
 
 	protected void setBound(Bound bound) {
 		this.bound = bound;
 	}
 
+	protected String getPathname() {
+		return pathname;
+	}
+
 	protected void setPathname(String pathname) {
 		this.pathname = pathname;
 	}
 
-	protected void setReader(IReader reader) {
-		this.reader = reader;
-	}
-
-	// getters
-	public IGenerator getGenerator() {
-		return generator;
-	}
-	
-	public IWriter getWritter() {
-		return writer;
-	}
-
-	public IReader getReader() {
-		return reader;
-	}
-	
-	public String getPathname() {
-		return pathname;
-	}
-
-	public double[][] getData() {
-		return data;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public Bound getBound() {
-		return bound;
-	}
-	
-	public double getResolution() {
+	protected double getResolution() {
 		return resolution;
 	}
 
-	// other methods
-	public void generate() {
-		this.generator.generate(this.data);
-	}
-	
-	public void export() {
-		this.writer.export(this.data);
+	protected void setResolution(double resolution) {
+		this.resolution = resolution;
 	}
 
+	protected String getMethodTag() {
+		return methodTag;
+	}
+
+	protected void setMethodTag(String methodTag) {
+		this.methodTag = methodTag;
+	}
+
+	protected String getExportDataExtension() {
+		return exportDataExtension;
+	}
+
+	protected void setExportDataExtension(String exportDataExtension) {
+		this.exportDataExtension = exportDataExtension;
+	}
+	
+	
 }

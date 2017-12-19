@@ -15,7 +15,7 @@ public class ShapefileReaderTest {
 		
 		Bound b = s.getBoundOfData("data/shp/sentiers_bdtopo.shp");
 		
-		String result = "[ [ 946532.6 6518015.4 ] [ 952637.5 6518015.4 ] [ 946532.6 946532.6 ] [ 952637.5 946532.6 ] ]";
+		String result = "[ [ 946532.6 6518015.4 ] [ 952637.5 6518015.4 ] [ 946532.6 6504465.6 ] [ 952637.5 6504465.6 ] ]";
 		
 		assertTrue(result.equals(b.toString()));
 		
