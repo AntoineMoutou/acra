@@ -46,7 +46,6 @@ public class GeotiffReader implements IReader {
 		        
 		BoundingBox bounds = getBoundingBox(pathname);
 		ReferencedEnvelope env = new ReferencedEnvelope(bounds);
-		System.out.println(env.getCoordinateReferenceSystem());
 		return env;
 			
 		

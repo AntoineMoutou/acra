@@ -44,24 +44,19 @@ public class Area {
 		
 		this.setBoundOfData();		
 		this.setWidth();
-		this.setHeight();	
+		this.setHeight();
+
 		this.setData();
+		
 	}
 	
 	public static void main(String args[]) throws Exception {
-//		Area area = new Area("data/oraison-IRC-2010-050m-crop2.tif","perlinNoise","tif",5.0);
-//		area.generate();
-//		area.export();
 		
-		Area area2 = new Area();
-		area2.setData(new double[100][100]);
-		//area2.setPathname("data/oraison-IRC-2010-050m-crop2.tif");
-		area2.setPathname("data/shp/sentiers_bdtopo.shp");
-		area2.setMethodTag("random");
-		area2.setExportDataExtension("tif");
-		area2.setResolution(5.0);
-		area2.generate();
-		area2.export();
+		Area area = new Area("data/shp/sentiers_bdtopo.shp","perlinNoise","tif",100.0);
+		//Area area = new Area("data/oraison-IRC-2010-050m-crop2.tif","perlinNoise","tif",10.0);
+		area.generate();
+		area.export();
+		
 	}
 	
 	// other methods
@@ -82,12 +77,12 @@ public class Area {
 
 	protected void setHeight() {
 		// TODO Auto-generated method stub
-		this.height = (int)(this.bound.getUl().getY() - this.bound.getBl().getY());
+		this.height = (int)((this.bound.getUl().getY() - this.bound.getBl().getY()) / this.resolution);
 	}
 
 	protected void setWidth() {
 		// TODO Auto-generated method stub
-		this.width = (int)(this.bound.getUr().getX() - this.bound.getUl().getX());
+		this.width = (int)((this.bound.getUr().getX() - this.bound.getUl().getX()) / this.resolution);
 	}
 
 	protected void setBoundOfData() throws ReaderException {
