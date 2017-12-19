@@ -16,10 +16,12 @@ public class BoundTest {
 		Bound bound = new Bound();
 		
         // define return value for method equals()
-		Mockito.when(c1.equals(bound.getUl())).thenReturn(true);
-        Mockito.when(c1.equals(bound.getUr())).thenReturn(true);
-        Mockito.when(c1.equals(bound.getBl())).thenReturn(true);
-        Mockito.when(c1.equals(bound.getBr())).thenReturn(true);
+        Mockito.when(c1.equals(c1)).thenReturn(true);
+        
+        bound.setBl(c1);
+        bound.setBr(c1);
+        bound.setUl(c1);
+        bound.setUr(c1);
 
         // use mock in test
         assertTrue(c1.equals(bound.getUl()));
@@ -64,18 +66,30 @@ public class BoundTest {
 		// create Bound objects 
 		Bound b1 = new Bound(c1, c2, c3, c4);
 		Bound b2 = new Bound(c1, c2, c3, c4);
+		
 		Bound b3 = new Bound(c1, c2, c3, c5);
+		Bound b4 = new Bound(c1, c2, c5, c4);
+		Bound b5 = new Bound(c1, c5, c3, c4);
+		Bound b6 = new Bound(c5, c2, c3, c4);
 		
         // define return value for method equals()
         Mockito.when(c1.equals(c1)).thenReturn(true);
         Mockito.when(c2.equals(c2)).thenReturn(true);
         Mockito.when(c3.equals(c3)).thenReturn(true);
         Mockito.when(c4.equals(c4)).thenReturn(true);
+        
+        Mockito.when(c1.equals(c5)).thenReturn(false);
+        Mockito.when(c2.equals(c5)).thenReturn(false);
+        Mockito.when(c3.equals(c5)).thenReturn(false);
         Mockito.when(c4.equals(c5)).thenReturn(false);
+
 
         // use mock in test
         assertTrue(b1.equals(b2));
         assertTrue(!(b1.equals(b3)));
+        assertTrue(!(b1.equals(b4)));
+        assertTrue(!(b1.equals(b5)));
+        assertTrue(!(b1.equals(b6)));
 	}
 
 	@Test

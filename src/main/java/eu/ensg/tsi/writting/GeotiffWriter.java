@@ -13,6 +13,7 @@ import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.parameter.ParameterValueGroup;
 
 import eu.ensg.tsi.exception.ReaderException;
+import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.reading.IReader;
 import eu.ensg.tsi.reading.ReaderFactory;
 
@@ -22,7 +23,7 @@ public class GeotiffWriter implements IWriter {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void export(double data[][], String pathname) throws ReaderException {
+	public void export(double data[][], String pathname,double resolution,Bound bound) throws ReaderException {
 		
 		float[][] exportData = new float[data.length][data[0].length];
 		

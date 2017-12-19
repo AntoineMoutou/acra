@@ -3,10 +3,6 @@ package eu.ensg.tsi.generation;
 import eu.ensg.tsi.exception.GeneratorException;
 
 public class GeneratorFactory {
-
-	public GeneratorFactory() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public static IGenerator createGenerator(String methodTag) throws GeneratorException {
 

@@ -1,6 +1,7 @@
 package eu.ensg.tsi.acra;
 
 import eu.ensg.tsi.exception.GeneratorException;
+import eu.ensg.tsi.exception.OutOfMemoryException;
 import eu.ensg.tsi.exception.ReaderException;
 import eu.ensg.tsi.exception.WriterException;
 import eu.ensg.tsi.generation.GeneratorFactory;
@@ -52,7 +53,7 @@ public class Area {
 	
 	public static void main(String args[]) throws Exception {
 		
-		Area area = new Area("data/shp/sentiers_bdtopo.shp","perlinNoise","tif",100.0);
+		Area area = new Area("data/shp/sentiers_bdtopo.shp","perlinNoise","asc",100);
 		//Area area = new Area("data/oraison-IRC-2010-050m-crop2.tif","perlinNoise","tif",10.0);
 		area.generate();
 		area.export();
@@ -67,12 +68,16 @@ public class Area {
 	
 	public void export() throws WriterException, ReaderException {
 		IWriter w = WriterFactory.createWriter(exportDataExtension);
-		w.export(this.data,this.pathname);
+		w.export(this.data,this.pathname,this.resolution,this.bound);
 	}
 	
 	// void setters 
 	protected void setData() {
-		this.data = new double[this.height][this.width];
+		try {
+			this.data = new double[this.height][this.width];
+		} catch(OutOfMemoryError e1) {
+			throw new OutOfMemoryException();
+		}
 	}
 
 	protected void setHeight() {

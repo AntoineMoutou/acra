@@ -11,9 +11,11 @@ public class CoordinateTest {
 		
 		// the default constructor creates a new Coordinate object with x = 0.0 and y = 0.0
 		Coordinate coordinate = new Coordinate(); 
+		coordinate.setX(15);
+		coordinate.setY(14);
 		
-		assertTrue(Math.abs(coordinate.getX() - 0.0) < 0.0000000000000001);
-		assertTrue(Math.abs(coordinate.getY() - 0.0) < 0.0000000000000001);
+		assertTrue(Math.abs(coordinate.getX() - 15) < 0.0000000000000001);
+		assertTrue(Math.abs(coordinate.getY() - 14) < 0.0000000000000001);
 	}
 
 	@Test
@@ -36,10 +38,13 @@ public class CoordinateTest {
 		double c = 2;
 		Coordinate c1 = new Coordinate(a, b);
 		Coordinate c2 = new Coordinate(a, b);
-		Coordinate c3 = new Coordinate(a, c);
+		Coordinate c3 = new Coordinate(b, c);
+		Coordinate c4 = new Coordinate(a, c);
 		
 		assertTrue(c1.equals(c2));
 		assertTrue(!(c1.equals(c3)));
+		assertTrue(!(c3.equals(c4)));
+		assertTrue(!(c2.equals(c4)));
 	}
 
 	@Test

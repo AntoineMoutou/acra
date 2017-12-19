@@ -26,8 +26,9 @@ public class AreaTest {
 		Area area = new Area(pathname, methodTag, exportDataExtension, resolution);
 		       
 		// Expected values
-        int width = 6104; 
-        int height = 13549;
+        int width = 380; 
+        int height = 790;
+        
         
         // use mock in test
         assertTrue(pathname.equals(area.getPathname()));
@@ -42,9 +43,12 @@ public class AreaTest {
 		Area area = new Area();
 		int height = 20;
 		int width = 35;
+		double resolution = 5;
 		
 		area.setHeight(height);
 		area.setWidth(width);
+		area.setResolution(resolution);
+		
 		
 		area.setData();
 		
@@ -61,7 +65,9 @@ public class AreaTest {
 		
 		double a = 150;
 		double b = 300;
-		int res = (int) 300 - 150;
+		double resolution = 5;
+		
+		int res = (int) ((b - a) / resolution);
 		
 		Bound bound = Mockito.mock(Bound.class);
 		Coordinate ul = Mockito.mock(Coordinate.class);
@@ -73,6 +79,7 @@ public class AreaTest {
 		Mockito.when(ul.getY()).thenReturn(b);
 		
 		area.setBound(bound);
+		area.setResolution(resolution);
 		
 		area.setHeight();
 		
@@ -86,7 +93,9 @@ public class AreaTest {
 		
 		double a = 150;
 		double b = 300;
-		int res = (int) 300 - 150;
+		double resolution = 5;
+		
+		int res = (int) ((b - a) / resolution);
 		
 		Bound bound = Mockito.mock(Bound.class);
 		Coordinate ul = Mockito.mock(Coordinate.class);
@@ -98,7 +107,8 @@ public class AreaTest {
 		Mockito.when(ul.getX()).thenReturn(a);
 		
 		area.setBound(bound);
-		
+		area.setResolution(resolution);
+
 		area.setWidth();
 		
 		assertTrue(area.getWidth() == res);
@@ -113,7 +123,7 @@ public class AreaTest {
 		area.setPathname(pathname);
 		area.setBoundOfData();
 		
-		String res = "[ [ 946532.6 6518015.4 ] [ 952637.5 6518015.4 ] [ 946532.6 6504465.6 ] [ 952637.5 6504465.6 ] ]";
+		String res = "[ [ 686068.0443291274 5735141.707100947 ] [ 695573.352335453 5735141.707100947 ] [ 686068.0443291274 5715370.395842486 ] [ 695573.352335453 5715370.395842486 ] ]";
 		
 		assertTrue(area.getBound().toString().equals(res));
 	}
@@ -128,6 +138,7 @@ public class AreaTest {
 		
 		area.generate();
 		
+		assertTrue(area.getMethodTag().equals(methodTag));
 		assertTrue(area.getData()[0][0] > 0.0);
 	}
 
@@ -139,8 +150,9 @@ public class AreaTest {
 		double data[][] = {{10,15},{20,30}};
 		area.setData(data);
 		
-		area.export();
+		//area.export();
 
+		assertTrue(area.getExportDataExtension().equals(exportDataExtension));
 		
 	}
 
