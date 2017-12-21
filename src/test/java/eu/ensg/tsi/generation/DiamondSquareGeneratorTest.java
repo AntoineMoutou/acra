@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class PerlinNoiseGeneratorTest {
+public class DiamondSquareGeneratorTest {
 
 	@Test
 	public void testGenerate() {
@@ -12,27 +12,17 @@ public class PerlinNoiseGeneratorTest {
 	}
 
 	@Test
-	public void testGeneratePerlinMatrix() {
+	public void testSetSize() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testDefPerlin() {
+	public void testFillWith() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testMix() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testOctaveNoise() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetPerlinValue() {
+	public void testCreate() {
 		fail("Not yet implemented");
 	}
 

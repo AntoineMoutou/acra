@@ -53,7 +53,7 @@ public class Area {
 	
 	public static void main(String args[]) throws Exception {
 		
-		Area area = new Area("data/shp/sentiers_bdtopo.shp","perlinNoise","asc",100);
+		Area area = new Area("data/shp/sentiers_bdtopo.shp","diamondSquare","tif",100);
 		//Area area = new Area("data/oraison-IRC-2010-050m-crop2.tif","perlinNoise","tif",10.0);
 		area.generate();
 		area.export();

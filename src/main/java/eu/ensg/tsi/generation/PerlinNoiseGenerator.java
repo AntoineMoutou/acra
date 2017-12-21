@@ -16,181 +16,122 @@ public class PerlinNoiseGenerator implements IGenerator {
 									     127, 4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,
 									     156,180};
 	
-	private static double RES = 0.5;
-	private static double AMP = 0.5;
+	private static double PER = 0.5;
+	private static double AMP = 1.0;
+	private static int OCT = 5;
+	private static double FRE = 0.0625; // 1/16
+
 
 	@Override
 	public void generate(double[][] data) {
-		for(int i = 0; i < data.length; i++) {
-			for(int j = 0; j < data[0].length; j++) {
-				double tmp = 0;
-				for(int k = 1; k < 5; k++ ) {
-					tmp += Math.pow(AMP, k) *((getPerlin(i, j, Math.pow(RES, k),data.length, data[0].length ) + 1) * 0.5);
-				}
-				data[i][j] = tmp;
+		generatePerlinMatrix(data);
+		
+	}
+	
+	public static void generatePerlinMatrix(double[][] data) {
+		int[] permTable = defPerlin();
+		
+		mix(permTable);
+		
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data[0].length; j++) {
+				data[i][j] = octaveNoise(j,i,permTable);
 			}
 		}
 	}
 	
 	protected static int[] defPerlin() {
 		int[] perm = PERMLIST;
-		mixPermList(perm);
 		
 		int[] permTable = new int[512];
+		
 		for(int i = 0; i < permTable.length; i++) {
 			permTable[i] = perm[i&255];
 		}
-		
 		return permTable;
 	}
 	
-	protected static void switchElements(int[] permList , int i, int j){
-
-		int tmp = permList[j];
-		permList[j] = permList[i];
-		permList[i] = tmp;
-	}
-	
-	protected static void mixPermList(int[] permList) {
-		for(int i = 0; i < permList.length/2; i++) {
-			switchElements(permList, i, (int)(Math.random() * (permList.length -1)));
+	protected static void mix(int[] permTable) {
+		
+		for(int i = 0; i < permTable.length; i++) {
+			int j = (int) Math.random() * 512;
+			int tmp = permTable[i];
+			permTable[i] = permTable[j];
+			permTable[j] = tmp;
 		}
 	}
 	
-	protected static double getPerlin(int x, int y, double res, int width, int height) {
+	protected static double octaveNoise(double x, double y, int[] permTable) {
+		double persistence = PER;
+		double octaves     = OCT;
+		double frequency   = FRE;
+		double amplitude   = AMP;
 		
+		double totalValue = 0;
+		double maxi = 0;
+		
+		for(int i = 0; i < octaves; i++) {
+			
+			totalValue += getPerlinValue(x*frequency, y*frequency, permTable) * amplitude;
+			 
+			 frequency *= 2;
+			 maxi += amplitude;
+			 amplitude *= persistence;
+			 
+		}
+		
+		return totalValue/maxi;
+		
+	}
+	
+	protected static double getPerlinValue(double x, double y, int[] permTable) {
+
 		double unit = 1.0/Math.sqrt(2);
 		double[][] gradient2 = {{unit, unit}, {-unit, unit}, {unit, -unit}, {-unit, -unit},{1,0},{-1,0},{0,1},{0,-1}};
 		
-//		int[] perm = PERMLIST;
-		int[] permTable = defPerlin();
-
-		
-		// adapt the resolution
-		double xd = (double) x / (width * res);
-		double yd = (double) y / (height * res);
-		
 		// get positions of the linked grid
-		int xi = (int) xd;
-		int yi = (int) yd;
+		int xi = (int) x;
+		int yi = (int) y;
 		
 		// add a mask
 		int ii = xi & 255;
 		int jj = yi & 255;
 		
 		// use of modulo 8 to limit grad values
-		int grad0 = permTable[ii + permTable[jj]] % 8;
-		int grad1 = permTable[ii + 1 + permTable[jj]] % 8;
-		int grad2 = permTable[ii + permTable[jj + 1]] % 8;
+		int grad0 = permTable[ii     + permTable[jj]    ] % 8;
+		int grad1 = permTable[ii + 1 + permTable[jj]    ] % 8;
+		int grad2 = permTable[ii     + permTable[jj + 1]] % 8;
 		int grad3 = permTable[ii + 1 + permTable[jj + 1]] % 8;
 		
 		//set vectors
-		double tempX = xd - xi;
-		double tempY = yd - yi;
+		double tempX = x - xi;
+		double tempY = y - yi;
 		double s = gradient2[grad0][0]*tempX + gradient2[grad0][1]*tempY;
 		
-		tempX = xd - (xi + 1);
-	    tempY = yd - yi;
+		tempX = x - (xi + 1);
+	    tempY = y - yi;
 	    double t = gradient2[grad1][0]*tempX + gradient2[grad1][1]*tempY;
 
-	    tempX = xd - xi;
-	    tempY = yd - (yi + 1);
+	    tempX = x - xi;
+	    tempY = y - (yi + 1);
 	    double u = gradient2[grad2][0]*tempX + gradient2[grad2][1]*tempY;
 
-	    tempX = xd - (xi + 1);
-	    tempY = yd - (yi + 1);
+	    tempX = x - (xi + 1);
+	    tempY = y - (yi + 1);
 	    double v = gradient2[grad3][0]*tempX + gradient2[grad3][1]*tempY;
 		
 	    //Smoothing
-	    double tmp = xd-xi;
+	    double tmp = x-xi;
 	    double Cx = 3 * tmp * tmp - 2 * tmp * tmp * tmp;
 
 	    double Li1 = s + Cx*(t-s);
 	    double Li2 = u + Cx*(v-u);
 
-	    tmp = yd - yi;
+	    tmp = y - yi;
 	    double Cy = 3 * tmp * tmp - 2 * tmp * tmp * tmp;
 
-	    return Li1 + Cy*(Li2-Li1);
+	    return (Li1 + Cy*(Li2-Li1) + 1) / 2;
 		
 	}
-	
-//	protected static double rand_noise(int t)
-//	{
-//	    t = (t<<13) ^ t;
-//	    t = (t * (t * t * 15731 + 789221) + 1376312589);
-//	    return 1.0 - (t & 0x7fffffff) / 1073741824.0;
-//	}
-//	
-//	protected static double noise_2d(int x, int y)
-//	{
-//	    int tmp = (int) rand_noise(x) * 850000;
-//	    return rand_noise(tmp + y);
-//	}
-//	
-//	protected static double noise_nd(int[] data_set, int dim)
-//	{
-//	    int i;
-//	    double r = 0.;
-//
-//	    for(i = 0; i < dim; i++)
-//	        r = rand_noise(data_set[i] + (int)(r * 850000) );
-//	    return r;
-//	}
-//	
-//	protected static double linear_interpolate(double a, double b, double t)
-//	{
-//	    return (1. - t) * a + t * b;
-//	}
-//	
-//	protected static double cosine_interpolate(double a, double b, double t)
-//	{
-//	    double c = (1 - Math.cos(t * 3.1415927)) * .5;
-//
-//	    return (1. - c) * a + c * b;
-//	}
-//	
-//	protected static double cubic_interpolate(double before_p0, double p0, double p1, double after_p1, double t)
-//	{
-//	   //Calcul des coefficients de notre polynôme
-//	   double a3 = -0.5*before_p0 + 1.5*p0 - 1.5*p1 + 0.5*after_p1;
-//	   double a2 = before_p0 - 2.5*p0 + 2*p1 - 0.5*after_p1;
-//	   double a1 = -0.5*before_p0 + 0.5*p1;
-//	   double a0 = p0;
-//	
-//	   //Calcul de la valeur de ce polynôme en t
-//	   return (a3 * t*t*t) + (a2 * t*t) + (a1 * t) + a0;
-//	   
-//	}
-//	
-//	protected static double smooth_noise_firstdim(int integer_x,int integer_y, double fractional_x)
-//	{
-//		double v0 = noise_2d(integer_x - 1, integer_y);
-//		double v1 = noise_2d(integer_x,     integer_y);
-//		double v2 = noise_2d(integer_x + 1, integer_y);
-//		double v3 = noise_2d(integer_x + 2, integer_y);
-//		
-//		return cubic_interpolate(v0, v1, v2, v3, fractional_x);
-//	}
-//	
-//	//Nous interpolons sur les y, en utilisant la fonction précédente
-//	protected staticdouble smooth_noise(double x, double y)
-//	{
-//		int integer_x = (int)x;
-//		double fractional_x = x - integer_x;
-//		int integer_y = (int)y;
-//		double fractional_y = y - integer_y;
-//		
-//		double t0 = smooth_noise_firstdim(integer_x,
-//		                integer_y - 1, fractional_x);
-//		double t1 = smooth_noise_firstdim(integer_x,
-//		                integer_y,     fractional_x);
-//		double t2 = smooth_noise_firstdim(integer_x,
-//		                integer_y + 1, fractional_x);
-//		double t3 = smooth_noise_firstdim(integer_x,
-//		                integer_y + 2, fractional_x);
-//		
-//		return cubic_interpolate(t0, t1, t2, t3, fractional_y);
-//	}
 		
 }
