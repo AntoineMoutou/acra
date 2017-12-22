@@ -48,10 +48,10 @@ La classe principale de notre API est Area. Autour de cette classe s'articulent 
 Ci-dessous les résultats obtenus pour les 3 méthodes de génération 
 
 Algorithme diamant-carré :
-![diamant carré](diamond.png "diamant carré")
+![diamant carré](diamondSquare.png "diamant carré")
 
 Bruit de Perlin :
-![perlin](perlin.png "perlin")
+![perlin](perlinNoise.png "perlin")
 
 Aléatoire : 
-![random noise](randomn.png "random noise")
+![random noise](random.png "random noise")
