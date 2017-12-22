@@ -127,13 +127,6 @@ public class DiamondSquareGenerator implements IGenerator {
 		  }
 		}
 		
-		//print out the data
-		for(double[] row : data){
-		  for(double d : row){
-		    System.out.printf("%8.3f ", d);
-		  }
-		  System.out.println();
-		}
 		return data;
 	}
 	
