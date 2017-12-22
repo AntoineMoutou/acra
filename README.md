@@ -51,12 +51,14 @@ Pour construire un objet Area à partir d'un fichier géographique il nous faut 
 + et la résolution souhaité du MNT soit la taille en mètre d'un pixel (int) 
 
 Exemple : 
+
 	```java
 	int resolutionDuMnt = 100;
 	Area myRasterArea = new Area("/chemin/vers/mon/fichier.tif", "perlinNoise", "asc", resolutionDuMnt);
 	Area MyVectorArea = new Area("/chemin/vers/mon/fichier.tif", "diamondSquare", "tif", resolutionDuMnt);
 	```
-	Les types supportés sont ceux supportés par l'API GeoTools (http://docs.geotools.org/stable/userguide/geotools.html)
+
+Les types supportés sont ceux supportés par l'API GeoTools (http://docs.geotools.org/stable/userguide/geotools.html)
 	
 
 #### Générer le MNT
