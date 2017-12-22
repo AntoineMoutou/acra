@@ -187,7 +187,7 @@ public class Area {
 		return methodTag;
 	}
 
-	protected void setMethodTag(String methodTag) {
+	public void setMethodTag(String methodTag) {
 		this.methodTag = methodTag;
 	}
 
@@ -195,7 +195,7 @@ public class Area {
 		return exportDataExtension;
 	}
 
-	protected void setExportDataExtension(String exportDataExtension) {
+	public void setExportDataExtension(String exportDataExtension) {
 		this.exportDataExtension = exportDataExtension;
 	}
 }
