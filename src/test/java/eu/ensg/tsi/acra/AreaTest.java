@@ -34,7 +34,7 @@ public class AreaTest {
         assertTrue(pathname.equals(area.getPathname()));
         assertTrue(Math.abs(resolution-area.getResolution())<0.000000000000001); //double equality
         assertTrue(width == area.getWidth());
-        assertTrue(height == area.getHeight());        
+        assertTrue(height == area.getHeight());    
 	}   
 
 	@Test

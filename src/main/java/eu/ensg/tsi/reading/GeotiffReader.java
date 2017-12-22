@@ -18,8 +18,17 @@ import org.opengis.referencing.operation.TransformException;
 import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.geometry.Coordinate;
 
+/**
+ * Class to read geotiff
+ * @author Antoine
+ *
+ */
+
 public class GeotiffReader implements IReader {
 
+	/**
+     * Default constructor.
+     */
 	public GeotiffReader() {
 		// TODO Auto-generated constructor stub
 	}
@@ -51,6 +60,11 @@ public class GeotiffReader implements IReader {
 		
 	}
 	
+	/**
+     * Extract the BoundingBox object of a geotiff in the coordinate reference system EPSG:3857.
+     * @param pathname the pathname of the geotiff to read
+     * @return the BoundingBox object of the geotiff 
+     */
 	protected static BoundingBox getBoundingBox(String pathname) {
 		File file = new File(pathname);
 	    

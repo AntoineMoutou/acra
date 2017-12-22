@@ -1,12 +1,33 @@
 package eu.ensg.tsi.geometry;
-
+/**
+ * Class that contains the vertices of the extent of the input file
+ * @author Antoine
+ *
+ */
 public class Bound {
-	
+	/**
+	 * The upper-left value
+	 */
 	private Coordinate ul;
+	
+	/**
+	 * The upper-right value
+	 */
 	private Coordinate ur;
+	
+	/**
+	 * The bottom-left value
+	 */
 	private Coordinate bl;
+	
+	/**
+	 * The bottom-right value
+	 */
 	private Coordinate br;	
 
+	/**
+	 * Default constructor
+	 */
 	public Bound() {
 		this.ul = new Coordinate();
 		this.ur = new Coordinate();
@@ -14,6 +35,13 @@ public class Bound {
 		this.br = new Coordinate();
 	}
 	
+	/**
+	 * Constructor with parameters
+	 * @param upperLeft the upper-left value
+	 * @param upperRight the upper-right value
+	 * * @param bottomLeft the bottom-left value
+	 * @param bottomRight the bottom-right value
+	 */
 	public Bound(Coordinate upperLeft, Coordinate upperRight, Coordinate bottomLeft, Coordinate bottomRight) {
 		this.ul = upperLeft;
 		this.ur = upperRight;
@@ -21,6 +49,10 @@ public class Bound {
 		this.br = bottomRight;
 	}
 	
+	/**
+	 * Equality between bound objects
+	 * @param bound the other bound object to compare
+	 */
 	public boolean equals(Bound bound) {
 		boolean b1 = this.ul.equals(bound.getUl());
 		boolean b2 = this.ur.equals(bound.getUr());
@@ -34,6 +66,7 @@ public class Bound {
 		return "[ " + this.ul.toString() + " " + this.ur.toString() + " " + this.bl.toString() + " " + this.br.toString() + " ]" ;
 	}
 
+	// Getters and Setters --------------------------------------------
 	public Coordinate getUl() {
 		return ul;
 	}

@@ -26,12 +26,21 @@ import org.opengis.referencing.operation.TransformException;
 import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.geometry.Coordinate;
 
+/**
+ * Class to read shapefiles
+ * @author Antoine
+ *
+ */
+
 public class ShapefileReader implements IReader {
 
+	 /**
+     * Default constructor.
+     */
 	public ShapefileReader() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public Bound getBoundOfData(String pathname) {
 			    
@@ -58,6 +67,11 @@ public class ShapefileReader implements IReader {
         return env;
 	}
 	
+	/**
+     * Extract the BoundingBox object of a shapefile in the coordinate reference system EPSG:3857.
+     * @param pathname the pathname of the shapefile to read
+     * @return the BoundingBox object of the shapefile 
+     */
 	protected static BoundingBox getBoundingBox(String pathname) {
 		File file = new File(pathname);
         

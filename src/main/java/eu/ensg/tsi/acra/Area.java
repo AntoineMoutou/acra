@@ -1,7 +1,6 @@
 package eu.ensg.tsi.acra;
 
 import eu.ensg.tsi.exception.GeneratorException;
-import eu.ensg.tsi.exception.OutOfMemoryException;
 import eu.ensg.tsi.exception.ReaderException;
 import eu.ensg.tsi.exception.WriterException;
 import eu.ensg.tsi.generation.GeneratorFactory;
@@ -9,23 +8,63 @@ import eu.ensg.tsi.generation.IGenerator;
 import eu.ensg.tsi.geometry.Bound;
 import eu.ensg.tsi.reading.IReader;
 import eu.ensg.tsi.reading.ReaderFactory;
-import eu.ensg.tsi.writting.IWriter;
-import eu.ensg.tsi.writting.WriterFactory;
+import eu.ensg.tsi.writing.IWriter;
+import eu.ensg.tsi.writing.WriterFactory;
+
+
+/**
+ * Main class, used to generate and export DEM from files.
+ * @author Antoine
+ */
 
 public class Area {
 	
+	/**
+     * The matrix m x n that contains elevation values.
+     */
 	private double data[][];
-	private int width; // width of the final image in pixel
-	private int height; // height of the final image in pixel
+	
+	/**
+     * The width of the export.
+     */
+	private int width; 
+	
+	/**
+     * The height of the export.
+     */
+	private int height;
+	
+	/**
+     * The Bound object that define the extent of the input file.
+     */
 	private Bound bound;
 	
+	/**
+     * The pathname of the input data.
+     */
 	private String pathname;
-	private double resolution; // pixel size in meter
+	
+	/**
+     * The resolution of the exported DEM (pixel size in meters).
+     */
+	private double resolution; 
+	
+	/**
+     * The method tag that defines the chosen method to generate a DEM.
+     */
 	private String methodTag;
+	
+	/**
+     * The extension of the export file.
+     */
 	private String exportDataExtension;
 	
-	// default constructor, only used for unit tests
+	/**
+     * Default constructor only used for unit tests.
+     */
+
 	protected Area() {
+		
 		this.resolution = 0;
 		this.pathname = null;
 		this.methodTag = null;
@@ -35,7 +74,14 @@ public class Area {
 		this.height = 0;
 		this.bound = null;
 	}
-
+	
+	/**
+     * Constructor 
+     * @param pathname the pathname of the input file
+     * @param methodTag the generation method chosen by the user
+     * @param exportDataExtension the extension of the export file
+     * @param res maximum the resolution of the exported DEM
+     */
 	public Area(String pathname, String methodTag, String exportDataExtension, double res) throws Exception {
 		
 		this.resolution = res;
@@ -46,47 +92,41 @@ public class Area {
 		this.setBoundOfData();		
 		this.setWidth();
 		this.setHeight();
-
 		this.setData();
-		
 	}
 	
-	public static void main(String args[]) throws Exception {
-		
-		Area area = new Area("data/shp/sentiers_bdtopo.shp","diamondSquare","tif",100);
-		//Area area = new Area("data/oraison-IRC-2010-050m-crop2.tif","perlinNoise","tif",10.0);
-		area.generate();
-		area.export();
-		
-	}
+	// Methods --------------------------------------------
 	
-	// other methods
+	/**
+     * Generates the DEM.
+     */
 	public void generate() throws GeneratorException {
 		IGenerator g = GeneratorFactory.createGenerator(this.methodTag);
 		g.generate(this.data);
 	}
 	
+	/**
+     * Export the DEM.
+     */
 	public void export() throws WriterException, ReaderException {
 		IWriter w = WriterFactory.createWriter(exportDataExtension);
 		w.export(this.data,this.pathname,this.resolution,this.bound);
 	}
 	
-	// void setters 
+	// Getters and Setters --------------------------------------------
 	protected void setData() {
 		try {
 			this.data = new double[this.height][this.width];
 		} catch(OutOfMemoryError e1) {
-			throw new OutOfMemoryException();
+			e1.printStackTrace();
 		}
 	}
 
 	protected void setHeight() {
-		// TODO Auto-generated method stub
 		this.height = (int)((this.bound.getUl().getY() - this.bound.getBl().getY()) / this.resolution);
 	}
 
 	protected void setWidth() {
-		// TODO Auto-generated method stub
 		this.width = (int)((this.bound.getUr().getX() - this.bound.getUl().getX()) / this.resolution);
 	}
 
@@ -158,6 +198,4 @@ public class Area {
 	protected void setExportDataExtension(String exportDataExtension) {
 		this.exportDataExtension = exportDataExtension;
 	}
-	
-	
 }

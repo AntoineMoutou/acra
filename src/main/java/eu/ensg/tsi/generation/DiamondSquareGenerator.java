@@ -4,7 +4,7 @@ import java.util.Random;
 
 
 /**
- * 
+ * Class to fill a matrix with the Diamond Square method
  * 
  * @author Antoine
  *
@@ -22,6 +22,11 @@ public class DiamondSquareGenerator implements IGenerator {
 
 	}
 	
+	/**
+	 * Set the 2^n+1 size value for DiamondSquare algorithm
+	 * @param data a matrix of double
+	 * @return the 2^n+1 value superior at the biggest dimension of data
+	 */
 	protected static int setSize(double[][] data) {
 		int width = data[0].length;
 		int height = data.length;
@@ -32,6 +37,11 @@ public class DiamondSquareGenerator implements IGenerator {
 		return i + 1 ;
 	}
 	
+	/**
+	 * Fill the data matrix with the matrix created with the Diamond Square method
+	 * @param dataToFill data to fill
+	 * @param data data created by the diamond square algorithm
+	 */
 	protected static void fillWith(double[][] dataToFill, double[][] data) {
 		for(int i = 0; i < dataToFill.length; i++) {
 			for(int j = 0; j < dataToFill[0].length; j++) {
@@ -41,12 +51,17 @@ public class DiamondSquareGenerator implements IGenerator {
 		}
 	}
 	
+	/**
+	 * Implementation of the Diamond Square algorithm
+	 * @param dataSize the 2^n+1 value to set the size of the matrix
+	 * @return the elevation matrix
+	 */
 	protected static double[][] create(int dataSize) {
 		//size of grid to generate, note this must be a
 		//value 2^n+1
 		final int DATA_SIZE = dataSize;
 		//an initial seed value for the corners of the data
-		final double SEED = 0.5;
+		final double SEED = 1.0;
 		double[][] data = new double[DATA_SIZE][DATA_SIZE];
 		//seed the data
 		data[0][0] = data[0][DATA_SIZE-1] = data[DATA_SIZE-1][0] = 
@@ -129,6 +144,4 @@ public class DiamondSquareGenerator implements IGenerator {
 		
 		return data;
 	}
-	
-
 }

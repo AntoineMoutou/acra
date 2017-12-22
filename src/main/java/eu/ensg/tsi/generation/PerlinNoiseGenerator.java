@@ -1,7 +1,14 @@
 package eu.ensg.tsi.generation;
 
+/**
+ * Class to fill a matrix with the Perlin Noise method.
+ * @author Antoine
+ */
 public class PerlinNoiseGenerator implements IGenerator {
 	
+	/**
+	 * The initial matrix of permutation.
+	 */
 	private static int[] PERMLIST = {151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,
 									     142,8,99,37,240,21,10,23,190, 6,148,247,120,234,75,0,26,197,62,94,252,219,
 									     203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168, 68,175,
@@ -16,19 +23,37 @@ public class PerlinNoiseGenerator implements IGenerator {
 									     127, 4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,
 									     156,180};
 	
+	/**
+	 * The persistence value.
+	 */
 	private static double PER = 0.5;
+	
+	/**
+	 * The amplitude value.
+	 */
 	private static double AMP = 1.0;
+	
+	/**
+	 * The number of octave.
+	 */
 	private static int OCT = 5;
+	
+	/**
+	 * The frequency value.
+	 */
 	private static double FRE = 0.0625; // 1/16
-
-
+	
 	@Override
 	public void generate(double[][] data) {
 		generatePerlinMatrix(data);
 		
 	}
 	
-	public static void generatePerlinMatrix(double[][] data) {
+	/**
+	 * Fill a matrix with Perlin Noise values.
+	 * @param data the matrix that will contain elevation values.
+	 */
+	protected static void generatePerlinMatrix(double[][] data) {
 		int[] permTable = defPerlin();
 		
 		mix(permTable);
@@ -40,6 +65,10 @@ public class PerlinNoiseGenerator implements IGenerator {
 		}
 	}
 	
+	/**
+	 * Set the initial permutation matrix.
+	 * @return the permutation matrix.
+	 */
 	protected static int[] defPerlin() {
 		int[] perm = PERMLIST;
 		
@@ -51,7 +80,11 @@ public class PerlinNoiseGenerator implements IGenerator {
 		return permTable;
 	}
 	
-	protected static void mix(int[] permTable) {
+	/**
+	 * Switch random elements of a matrix.
+	 * @param permTable the permutation matrix.
+	 */
+	private static void mix(int[] permTable) {
 		
 		for(int i = 0; i < permTable.length; i++) {
 			int j = (int) Math.random() * 512;
@@ -61,6 +94,12 @@ public class PerlinNoiseGenerator implements IGenerator {
 		}
 	}
 	
+	/**
+	 * Calculate the values with different octaves.
+	 * @param x the x position in the matrix of elevation.
+	 * @param y the y position in the matrix of elevation.
+	 * @param permTable the matrix of permutation.
+	 */
 	protected static double octaveNoise(double x, double y, int[] permTable) {
 		double persistence = PER;
 		double octaves     = OCT;
@@ -84,6 +123,12 @@ public class PerlinNoiseGenerator implements IGenerator {
 		
 	}
 	
+	/**
+	 * Calculate the value for one octave.
+	 * @param x the x position in the matrix of elevation.
+	 * @param y the y position in the matrix of elevation.
+	 * @param permTable the matrix of permutation.
+	 */
 	protected static double getPerlinValue(double x, double y, int[] permTable) {
 
 		double unit = 1.0/Math.sqrt(2);
@@ -132,6 +177,5 @@ public class PerlinNoiseGenerator implements IGenerator {
 
 	    return (Li1 + Cy*(Li2-Li1) + 1) / 2;
 		
-	}
-		
+	}		
 }
