@@ -1,1 +1,32 @@
 language: java
+
+jdk:
+  - oraclejdk8
+  - openjdk8
+
+notifications:
+  email:
+    recipients:
+      - moutou.antoine@hotmail.fr
+    on_success: never
+    on_failure: always
+
+stages:
+  - compile
+  - test
+  - name: deploy
+    if: branch = master
+
+jobs:
+  include:
+    - stage: compile
+      script: mvn compile
+    - stage: test
+      script: 
+        - jdk_switcher use oraclejdk8
+        - mvn test
+      script: 
+        - jdk_switcher use openjdk8 
+        - mvn test
+    - stage: deploy
+      script: mvn install
